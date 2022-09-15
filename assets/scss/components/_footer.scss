@@ -1,0 +1,117 @@
+        footer {
+            position: relative;
+            background: $footer-bg;
+            text-align: center;
+            @include rem-px(padding, 38, 0, 38);
+            @include bp(tab-landscape) { 
+                @include rem-px(padding, 27, 0, 27);
+            }
+            @include bp(sm-max) {
+                @include rem-px(padding, 27, 0, 12);
+                .container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+            }
+            &::before{
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                max-width: 690px;
+                width: 100%;
+                background:url(../images/gradient-footer.png);
+                background-position: 100% 100%;
+                background-repeat: no-repeat;
+                background-size: cover;
+                display: block;
+            }
+            ul {
+                float: left;
+                @include bp(sm-max) {
+                    width: 100%;
+                    order: 2;
+                    text-align: left;
+                }
+                li {
+                    text-align: left;
+                    font-weight: 400;
+                    letter-spacing: 0.2px;
+                    @include rem-px(font-size, 14);
+                    @include rem-px(line-height, 18);
+                    @include rem-px(margin-bottom, 12);
+                    color: $color4;
+                    @include bp(sm-max) {
+                        @include rem-px(font-size, 13);
+                        @include rem-px(margin-bottom, 15);
+                        @include rem-px(line-height, 15);
+                    }
+                    a {
+                        color: $color4;
+                        &:hover,
+                        &:focus {
+                            color: $primary-color;
+                        }
+                    }
+                }
+            }
+            .footer-logo {
+                @include rem-px(width, 38);
+                @include rem-px(height, 40);
+                @include rem-px(margin-left, -18);
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                left: 50%;
+                opacity: 1;
+                margin-top: 4px;
+                @include bp(sm-max) {
+                    position: static;
+                    order: 1;
+                    margin: 0 0 40px;
+                }
+                &:hover,
+                &:focus {
+                    opacity: 0.6;
+                }
+            }
+        }
+
+        .top-scroll-btn {
+            position: fixed;
+            right: 137px;
+            bottom: 129px;
+            height: 40px;
+            width: 40px;
+            background: $white;
+            z-index: 9;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            @include bp(tab-landscape) {
+                right: 68px;
+            }
+            @include bp(sm-max) {
+                height: 30px;
+                width: 30px;
+                bottom: 30px;
+                right: 15px;
+            }
+            &:hover,
+            &:focus {
+                opacity: 0.7;
+            }
+            i {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                width: 100%;
+                img {
+                    @include rem-px(height, 25);
+                    @include rem-px(width, 22);
+                }
+            }
+        }

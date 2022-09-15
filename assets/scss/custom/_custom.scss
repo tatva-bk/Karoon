@@ -1,0 +1,374 @@
+/* Start of Map css on homepage */
+#map_canvas{
+    height:0;
+    width:950px;
+    background: transparent;
+    max-width: 100%; 
+    padding-bottom: 48%;
+}
+
+.map-marker-label {
+    position: absolute;
+    color: #00a3e0;
+    font-size: 12px;
+    font-weight: bold;
+    /*margin-top: -30px;*/    
+}
+
+.contact_block .submit_btn .btn {
+    cursor: pointer;
+}
+
+.gmnoprint, .gm-style button {
+    display:none !important;
+}
+
+.gm-style a[href^="https://maps.google.com/maps"] {
+    display: none !important;
+}
+
+#loader {
+    margin: 0 auto;
+    text-align: center;
+}
+.page-numbers {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    justify-content: center;
+    @include rem-px(padding-top, 19);
+    li {
+        display: inline-block;
+        @include rem-px(padding, 0, 6);
+        .page-numbers {
+            color: $font-color;
+            @include rem-px(font-size, 12);
+            @include rem-px(line-height, 16);
+            font-weight: 600;
+            &:hover {
+                color: $primary-color;
+            }
+            span {
+                display: inline-block;
+                @include rem-px(margin, 0, 8);
+            }
+        }
+        span.page-numbers {
+            color: $primary-color;
+        }
+    }
+}
+
+/* End of Map css on homepage */
+
+
+/* Start Search Page css */
+.search-no-results .not-found-class{margin-top: 25px;}
+.search-no-results .not-found-class [type=search]{width: 230px;height: 30px;margin-right: 10px;box-shadow: none;border-style: solid;border-color: #ADB3B7;border-width: 1px;}
+.search-no-results .not-found-class [type=submit]{height: 30px;width: 76px;}
+
+/* End Search Page css */
+
+// nav .current-menu-item a{color: #00a3e0;font-weight: 700;}
+
+/* Start Contact Page css */
+.contact_block .offices_block .offices_inner address strong {
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-right: .5rem;
+}
+
+.contact_block .offices_block .offices_inner address {
+    display: block;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+}
+
+.contact_block .offices_block .offices_inner address a {
+    color: #5b6770;
+    word-break: break-all;
+}
+.contact_block .offices_block .offices_inner address a:hover {
+    color: #00a3e0;
+}
+/* End Contact Page css */
+
+/* Header Share price */
+header .header-share-price span {
+    font-weight: normal;
+}
+header .header-share-price span.updated {
+    white-space: nowrap;
+    font-size: 1.1rem;
+    line-height: 1.3rem;
+    margin: -.6rem 0 0;
+    transition: all .3s;
+    font-weight: 600;
+}
+header .header-share-price span.updated span { 
+    font-weight: 600;
+}
+
+.wpml-ls-menu-item .wpml-ls-flag {    
+    width: 31px;
+    height: 18px;
+    .small-header &{
+        height: auto;
+    }
+}
+
+header .header-share-price .price-result .price-wrap { 
+    padding: 1.1rem 0 0; 
+    @include bp(md-max) {
+        padding: 0; 
+    }
+}   
+
+.pagination .not-active{font-size: 1.2rem; font-weight: 600; color: #00a3e0; }
+.pagination .not-active span{margin: 0px 8px;}
+form .wpcf7-not-valid-tip{margin-top: 10px;}
+.stock_ticker .lastspan{
+    white-space: nowrap; 
+    font-size: 1.1rem;
+    line-height: 1.3rem;
+    margin: -.6rem 0 0;
+    font-weight: 600;
+    transition: all .3s;
+    @include bp(md-max) {
+        display: block;
+        margin: 7px 0 0;
+    }
+}
+
+.my-custom-class-for-label0 {
+    margin-left: -120px!important;
+    width: 130px;
+    font-size: 17px;
+    margin-top: -20px!important;
+    color: #006099;
+}
+.my-custom-class-for-label1 {
+    font-size: 17px;
+    width: 120px;
+    text-align: right;
+    margin-left: -7px!important;
+    color: #006099;
+    padding-left: 21px;
+}
+.my-custom-class-for-label2 {
+    width: 144px!important;
+    margin-left: -136px!important;
+    font-size: 17px;
+    color: #006099;
+    margin-top: -20px !important;    
+}
+.my-custom-class-for-label3 {
+    width: 150px!important;
+    margin-left: -85px!important;
+    height: 40px;
+    padding-top: 22px;
+    font-size: 17px;
+    color: #006099;
+    margin-top: -18px!important;
+}
+.my-custom-class-for-label4 {width: 125px; margin-left: -117px !important; font-size: 17px; margin-top: -18px !important; color: #006099;}
+.comp__collapse-block.investor_news.presentations, .comp__collapse-block.investor_news {overflow: visible;}
+div#investornblock div#communityNews {overflow: hidden;}
+@media (max-width: 1024px) {
+    .my-custom-class-for-label1 {
+        font-size: 17px;
+        margin-left: 14px!important;
+        color: #006099;
+    }
+    .my-custom-class-for-label3 {
+        width: 115px!important;
+    }
+}
+@media (max-width: 450px){
+    .search-no-results .not-found-class [type=search]{width: 230px;height: 30px;margin-right: 10px;box-shadow: none;border-style: solid;border-color: #ADB3B7;border-width: 1px;}           
+    .search-no-results .not-found-class [type=submit]{height: 30px;width: 65px;margin: 10px 1px !important;}
+}
+@media (max-width: 768px){
+    
+    //.my-custom-class-for-label0 { margin-left: -83px!important; font-size: 13px; margin-top: -4px!important; color: #006099;}
+    .my-custom-class-for-label0 {
+        margin-left: -75px!important;
+        font-size: 13px;
+        margin-top: -16px!important;
+        color: #006099;
+        height: 30px;
+        padding-top: 13px;
+        width: 84px;
+    }
+    
+    .my-custom-class-for-label1 {
+        font-size: 13px;
+        margin-left: -6px !important;
+        color: #006099;
+        margin-top: -16px!important;
+        width: 44px;
+        height: 50px;
+        padding-top: 15px;
+        padding-left: 6px;
+    }
+    .my-custom-class-for-label2 {
+        width: 83px!important;
+        margin-left: -68px!important;
+        font-size: 13px;
+        color: #006099;
+    }
+    .my-custom-class-for-label3 {
+        width: 115px!important;
+        margin-left: -45px!important;
+        font-size: 13px;
+        margin-top: -15px!important;
+        color: #006099;
+        height: 30px;
+        padding-top: 19px;
+    }
+    .my-custom-class-for-label4 {
+        width: 87px;
+        margin-left: 0px !important;
+        font-size: 13px;
+        margin-top: -18px!important;
+        color: #006099;
+        text-align: right;
+    }
+}
+
+@media (max-width: 430px){
+    
+    .my-custom-class-for-label0, .my-custom-class-for-label1, .my-custom-class-for-label2, .my-custom-class-for-label3, .my-custom-class-for-label4 {
+        font-size: 12px;
+    }
+    
+    .my-custom-class-for-label0 {
+        margin-left: -75px !important;
+    }
+    
+    .my-custom-class-for-label2 {
+        width: 70px!important;
+    }
+    
+}
+@media (max-width: 359px){
+    
+    .my-custom-class-for-label0, .my-custom-class-for-label1, .my-custom-class-for-label2, .my-custom-class-for-label3, .my-custom-class-for-label4 {
+        font-size: 11px;
+    }
+    
+    .my-custom-class-for-label0 {
+        margin-left: -58px !important;       
+    }
+    .my-custom-class-for-label2 {
+        margin-left: -65px!important;
+    }
+    .my-custom-class-for-label4 {   
+        margin-left: 0px!important;    
+        margin-top: -28px!important;
+    }
+}
+
+.margin-class{margin-top: 20px !important;}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+    .contact_block .captcha_block>.wpcf7-form-control-wrap {
+    -webkit-transform: scale(0.92);
+    -ms-transform: scale(0.92);
+    transform: scale(0.92);
+    -webkit-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+}
+
+.sec__governance .content-block .policies-row p {
+    font-weight: 700;
+    margin-bottom: .4rem;
+}
+.sec__investor .investor_news.presentations .policies-row .col-10 {
+    padding-left: 0;
+}
+.sec__investor .investor_news.presentations .policies-row .col-2 {
+    padding-right: 0;
+}
+#investornblock .coll-body .row {
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid #006099;
+}
+#investornblock .coll-body .row .policies-row {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+@media (max-width: 1024px){
+    .cms-content ol li, .cms-content ul li {
+        font-size: 1.4rem !important;
+        line-height: 1.9rem !important;
+    }
+}
+
+/* Hide video play butto icon */
+
+.article-video-wrap::after{display: none;}
+
+/**21/05/2019**/
+.comp__collapse-block.open-overview .coll-trigger::after{
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.coll-body.row {
+    position: relative;
+}
+.coll-body .coll-body-right {
+    position: absolute;
+    top:0;
+    right: 0;
+}
+
+.page-template-template-investor .sec__investor .custom_dropdown.small .dk-selected{background: #1d71b8; color: #ffffff;}
+.page-template-template-investor .sec__investor .custom_dropdown.small .dk-selected::after{background: url(../images/plus-icon-white.svg) center center no-repeat;}
+.page-template-template-contact .contact_block .offices_block{padding: 0rem 0 4.4rem;}
+.page-template-template-governance .sec__governance .policies-row{border-bottom: 1px solid #d1640b;}
+
+/** Sustainability page **/
+.gallery-class {
+    @include rem-px(padding-top, 6);
+    @include rem-px(margin-bottom, 12);
+    margin-left: -2px;
+    margin-right: -2px;
+    @include bp(sm-max) {
+        @include rem-px(margin-bottom, 13);
+        display: block;
+    }
+    .article-images-wrap {
+        @include rem-px(margin-bottom, 4);
+        @include rem-px(margin-right, 0);
+        @include rem-px(margin-top, 0);
+        padding-right: 2px;
+        padding-left: 2px;
+        &:last-of-type{
+            @include bp(sm-max) {
+                @include rem-px(margin-bottom, 0);
+            }    
+        }
+        @include bp(sm-max) {
+            float: left;
+            width: 100%;
+            @include rem-px(padding, 0, 15);
+            @include rem-px(margin-bottom, 20);
+        }
+        &::after {
+            @include rem-px(left, 15);
+            @include rem-px(right, 15);
+        }
+        &:hover {
+            &:after {
+                left: 2px !important;
+                right: 2px !important;
+            }
+        }
+    }
+}

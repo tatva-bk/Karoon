@@ -1,0 +1,127 @@
+/*!
+Theme Name: karoon
+Theme URI: http://underscores.me/
+Author: ##
+Author URI: ##
+Description: ##
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: karoon
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+karoon is based on Underscores https://underscores.me/, (C) 2012-2017 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+*/
+
+.cms-content table tr td{ padding: 0 60px; }
+.cms-content table tr td:first-of-type{padding-left: 0;}
+@media (max-width: 767px) {
+    .cms-content table{
+        margin-bottom: 2.5rem;
+    }
+    .cms-content table tr td{
+        padding: 0 15px;
+    }
+}
+
+.sec__team-brief .sec__team-content .cms-content.no-image-class{padding-left: 15px;}
+
+
+/* Read more and read less css(about page 12112019) start */
+
+.about-sub-content .read-collapse:after,
+.about-sub-content .read-collapse:before{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    z-index: -1;
+    content: "";
+    background: #1d71b8;
+    -o-transition: width .3s ease;
+    -ms-transition: width .3s ease;
+    -webkit-transition: width .3s ease;
+    transition: width .3s ease;
+}
+.about-sub-content .read-collapse::before{
+    right: 0;
+    opacity: 1;
+}
+.about-sub-content .read-collapse:after{
+    left: 0;
+    opacity: 0;
+}
+.about-sub-content .read-more-less:hover .read-collapse::after{
+    opacity: 1;
+    width: 100%;
+}
+.about-sub-content .read-more-less:hover .read-collapse::before{
+    opacity: 0;
+    width: 100%;
+}
+.about-sub-content .read-more-less:after{
+    content: "";
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.3rem;
+    height: 3.6rem;
+    margin-left: .6rem;
+    transition: .3s all ease;
+    background-image: url(public/images/plus-icon.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+}
+.about-sub-content .read-more-less{
+    display: inline-block;
+    margin: 0 auto;
+    border: 1px solid #1d71b8;
+    color: #1d71b8;
+    padding: 0 1.4rem;
+    position: relative;
+    min-height: 36px;
+    margin-top: 20px;
+}
+
+.about-sub-content .read-more-less:hover:after{
+    background-image: url(public/images/plus-icon-white.svg);
+}
+.about-sub-content .read-more-less:hover{
+    color: #ffffff;
+}
+.about-sub-content .read-less{
+    display: none;
+}
+.about-sub-content .about-sub-inner-content{
+    max-height: 97px;
+    transition: .6s linear;
+    overflow: hidden;
+}
+.about-sub-content.read-more-content .read-less{
+    display: inline-block;
+}
+.about-sub-content.read-more-content .read-more{
+    display: none;
+}
+.about-sub-content.read-more-content .read-more-less:after {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.about-sub-content.read-more-content .about-sub-inner-content{
+    max-height: 1000px;
+    transition: .8s linear;
+}
+
+/* Read more and read less css(about page 12112019) end */
+
+.address_block.last-col-contact {
+	padding-right: 8px;
+}

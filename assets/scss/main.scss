@@ -1,0 +1,35 @@
+// Core Bootstrap Files
+@import 'base/custom-variables';
+@import "base/fonts";
+
+
+//vendor
+@import "bower_components/bootstrap/scss/bootstrap";
+@import "bower_components/bootstrap/scss/bootstrap-grid";
+@import "bower_components/bootstrap/scss/bootstrap-reboot";
+@import "bower_components/owl.carousel/src/scss/owl.carousel";
+@import "bower_components/dropkick/src/css/dropkick";
+@import "vendor/vendor";
+
+
+//base
+@import "base/colors";
+@import "base/break-points";
+@import "base/mixins";
+@import "base/typography";
+@import "base/layout";
+@import "base/layout1";
+@import "base/layout2";
+@import "base/table";
+
+
+//component
+@import "components/header";
+@import "components/footer";
+@import "components/form-element";
+@import "components/banner";
+@import "components/home";
+
+
+//custom
+@import "custom/custom";

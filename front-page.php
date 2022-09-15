@@ -1,0 +1,276 @@
+<?php
+/* Template Name: Home Template */
+get_header();
+?>
+<script>var locations = []; var locationscount = []; var locationsProject = [];</script>
+
+<main>   
+    <!-- Displaying banner content -->
+    <section class="banner animatedParent animateOnce">
+        <?php get_template_part('template-parts/banner', 'content'); ?>
+    </section>
+
+    <section class="home-page-news with-padding">
+        <div class="left-bg-image"></div>
+        <div class="right-bg-image"></div>       
+        <?php
+        $investorNewsTitle = get_field('investor_news_title', $post->ID);        
+        $investorNewsButtonLink = get_field('investor_news_button_link', $post->ID);
+        $featureReportTitle = get_field('feature_report_title', $post->ID);
+        $featureReportButtonLink = get_field('feature_report_link', $post->ID);
+        $viewallButtonLabel = get_field('view_all_button_label', 'option');
+        $learnMoreButtonLabel = get_field('learn_more_button_label', 'option');
+        $mapTitle = get_field('map_title', $post->ID);
+        $mapImage = get_field('homepage_map_image', $post->ID);
+        ?>
+        <div class="container">
+            <div class="row">
+
+                <!-- Start of Investor News Section -->
+                    <div class="col-lg-4 col-sm-5"> 
+                        <div class="investor-news">
+                        <?php if ($investorNewsTitle && $investorNewsTitle != '') { ?>
+                            <h3><?php printf(__('%s', 'karoon'), $investorNewsTitle); ?></h3>
+                        <?php } ?>
+
+                        <ul class="news-list animatedParent animateOnce" data-sequence='300'>
+                            <?php
+                            $counter = 1;                         
+                                $query = new WP_Query(array('post_type' => 'post','category_name' => 'investor-news', 'posts_per_page' => 6));
+                                if ($query->have_posts()) {                                     
+                                    while ($query->have_posts()) {                                
+                                        $query->the_post(); 
+                                        $pdfLink = get_field('pdf_link', $post->ID); 
+                                        $report_external_link = get_field("report_external_link", $post->ID);
+                                ?>
+                                        <?php if ($pdfLink && $pdfLink != '') { ?>
+                                    <li class="animated fadeInDownShort" data-id='<?php echo $counter; ?>'>
+                                        <h5>
+                                            <a href="<?php printf(__('%s', 'karoon'), $pdfLink); ?>" target="_blank" title="<?php printf(__('%s', 'karoon'), the_title()); ?>"><?php printf(__('%s', 'karoon'), the_title()); ?></a>
+                                        </h5>
+                                        <p><?php printf(__('%s', 'karoon'), the_time('d/m/Y')); ?></p>
+                                    </li>
+									<?php } else if($report_external_link && $report_external_link!= '') { ?>
+									<li class="animated fadeInDownShort" data-id='<?php echo $counter; ?>'>
+                                        <h5>
+                                            <a href="<?php printf(__('%s', 'karoon'), $report_external_link); ?>" target="_blank" title="<?php printf(__('%s', 'karoon'), the_title()); ?>"><?php printf(__('%s', 'karoon'), the_title()); ?></a>
+                                        </h5>
+                                        <p><?php printf(__('%s', 'karoon'), the_time('d/m/Y')); ?></p>
+                                    </li>
+										
+									<?php }?>       
+                            <?php       $counter++;
+                                    }
+                                }
+                                wp_reset_postdata();
+                                wp_reset_query();  
+                            ?>
+                        </ul>
+
+                        <?php if ((($investorNewsButtonLink) && ($investorNewsButtonLink != '')) && (($viewallButtonLabel)  && ($viewallButtonLabel != ''))) { ?>
+                            <a href="<?php printf(__('%s', 'karoon'), $investorNewsButtonLink); ?>" title="<?php printf(__('%s', 'karoon'), $viewallButtonLabel); ?>" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewallButtonLabel); ?></a>
+                        <?php } ?>                       
+                        </div>
+                        
+                        <?php $investor_pageid = get_page_by_title( 'Investors' );
+                                $investor_id = $investor_pageid->ID;                           
+                        ?>
+                
+                       
+                                                       
+                    </div>                
+                <!-- End of Investor News Section -->
+
+                <!-- Start of Map Section -->  
+                
+                <div class="col-lg-8 col-sm-7">
+                <div class="map-wrapper">
+                    <?php if (get_field('map_title', $post->ID)) { ?>
+                            <h3 class="mobile-hide"><?php echo get_field('map_title', $post->ID); ?></h3>
+                        <?php } ?>
+                        <?php if (get_field('map_title_mobile', $post->ID)) { ?>
+                            <h3 class="mobile-show"><?php echo get_field('map_title_mobile', $post->ID); ?></h3>
+                        <?php } ?>
+                    <?php if($mapImage) {?>
+                    <img src="<?php echo $mapImage;?>" alt="" class="mobile-hide">
+                    <img src="<?php echo $mapImage;?>" alt="" class="mobile-show">
+                    <?php }?>
+                    
+                    
+                    
+                    
+                     <?php $count = 1;
+                            //if (have_rows('annual_reports_section', $investor_id)) {
+                            // loop through the rows of data
+                                //while (have_rows('annual_reports_section', $investor_id)) { 
+                                    $argsFeaturePresNews = array('posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC', 'cat' => "presentations");
+                                    $featurepresQuery = new WP_Query($argsFeaturePresNews);
+                                    if ($featurepresQuery->have_posts()) {
+                                        while ($featurepresQuery->have_posts()) {
+                                            $featurepresQuery->the_post();
+                                            $isFeaturePresentation = get_field("is_featured_presentation", $featurepresQuery->ID);                                            
+                                            $pdfLink = get_field('pdf_link', $featurepresQuery->ID);
+                                            $externalLink = get_field('report_external_link', $featurepresQuery->ID);                                                                     
+                                            if($isFeaturePresentation == 1){
+                                                if($count == 1){ ?>                                            
+                                                    <div class="feature-report">
+                                                        <?php if ($featureReportTitle && $featureReportTitle != '') { ?>
+                                                            <h3><?php printf(__('%s', 'karoon'), $featureReportTitle); ?></h3>
+                                                            <?php if($pdfLink) { ?>
+                                                                <a href="<?php printf(__('%s', 'karoon'), $pdfLink); ?>" target="_blank" title="">
+                                                            <?php } elseif($externalLink) { ?>
+                                                                <a href="<?php printf(__('%s', 'karoon'), $externalLink); ?>" target="_blank" title="">
+                                                            <?php } ?>
+                                                            <?php if(null!= get_the_post_thumbnail_url($featurepresQuery->ID)){ ?>
+                                                                <i><img src="<?php echo get_the_post_thumbnail_url($featurepresQuery->ID); ?>" alt=""></i>
+                                                            <?php } ?>    
+                                                            </a>
+                                                        <?php } ?>
+                                                        <p><?php echo get_the_title(); ?></p>                                                        
+
+                                                        <?php if ((($featureReportButtonLink) && ($featureReportButtonLink != '')) && (($viewallButtonLabel)  && ($viewallButtonLabel != ''))) { ?>
+                                                            <a href="<?php printf(__('%s', 'karoon'), $featureReportButtonLink); ?>" title="<?php printf(__('%s', 'karoon'), $viewallButtonLabel); ?>" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewallButtonLabel); ?></a>
+                                                        <?php } ?>
+                                                    </div>
+                                                <?php }
+                                                $count++;   
+                                            }                                                                                                
+                                        }
+                                    }                           
+                                        wp_reset_postdata();
+                                        wp_reset_query();
+                                    ?>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+               
+                    <!--<div class="map-wrapper">
+                        <?php if ($mapTitle && $mapTitle != '') { ?>    
+                            <h3><?php printf(__('%s', 'karoon'), $mapTitle); ?></h3>
+                        <?php } ?>
+
+                        <div id='map_canvas' class="canvas-map">
+                        </div>
+                        <?php
+                        $fullAddress = array();
+                        $fullCountryAddress = array();
+                        $mapProject = array();
+
+                        if (have_rows('map_addresses')) {
+                            // loop through the rows of data
+                            while (have_rows('map_addresses')) {
+                                the_row();
+                                $mapAddress [] = get_sub_field('map_name', $post->ID);
+                                $mapCountryAddress [] = get_sub_field('map_country_address', $post->ID);
+                                $fullAddress = array_combine($mapAddress, $mapCountryAddress);
+                                $mapAddress1 = get_sub_field('select_project', $post->ID);
+                                
+                                if($mapAddress1) :
+                                    $post = $mapAddress1;                                   
+                                    setup_postdata( $post );                                    
+                                    $mapProject [] = str_replace(array(' ',','),array('-',""),strtolower(strstr(get_the_title(), ',', true)));
+                                    wp_reset_postdata();
+                                    wp_reset_query();
+                                endif;
+                                
+                            }
+                        }
+                        
+                        $i = 0;
+                        foreach($fullAddress as $key => $value) { ?>
+                        <script>locations.push('<?php echo $key.", ".$value; ?>'); </script>
+                        <script>locationsProject.push('<?php echo $mapProject[$i]; ?>'); </script>
+                        <?php $i = $i + 1; }
+                        ?>
+                    </div>
+                </div>-->
+                <!-- End of Map Section -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Start of Bottom Block Structure Section -->
+    <section class="inner-page-list  animatedParent animateOnce" data-sequence="500">
+        <div class="inner-page-content">                                      
+            <?php
+            $counter = 1;
+            if (have_rows('bottom_block_structure')) {                 
+                // loop through the rows of data
+                while (have_rows('bottom_block_structure')) {                     
+                    the_row();
+                    $blockTitle = get_sub_field('block_title', $post->ID);
+                    $blockShortContent = get_sub_field('block_short_content', $post->ID);
+                    $blockImageDesktop = get_sub_field('block_image_desktop', $post->ID);
+                    $blockImageMobile = get_sub_field('block_image_mobile', $post->ID);
+                    $blockButtonLink = get_sub_field('block_button_link', $post->ID);
+                    $blockBgColor = get_sub_field('bb_background_color',$post->ID);
+                    ?>  
+                    <?php if($counter % 2 != 0){  ?>
+                        <div class="page-list-outer clearfix animated fadeInDownShort" data-id='<?php printf(__('%s', 'karoon'), $counter); ?>'>                        
+                    <?php }else{ ?>
+                        <div class="page-list-outer right-img clearfix animated fadeInDownShort" data-id='<?php printf(__('%s', 'karoon'), $counter); ?>'>
+                    <?php } ?>
+                    <div class="container">
+                    <div class="text-block col-6">
+                    <span class="side-gradient"></span>
+                            <div class="text-inner">
+                                <?php if ($blockTitle && $blockTitle != '') { ?>
+                                    
+                                    <h3><?php printf(__('%s', 'karoon'), $blockTitle); ?></h3>                                                                      
+                                <?php } ?>
+
+                                <?php if ($blockShortContent && $blockShortContent != '') { ?>
+                                    <p><?php printf(__('%s', 'karoon'), $blockShortContent); ?></p>
+                                <?php } ?>
+
+                                <?php if (($blockButtonLink && $blockButtonLink != '') && ($learnMoreButtonLabel && $learnMoreButtonLabel != '')) { ?>
+                                        <a href="<?php printf(__('%s', 'karoon'), $blockButtonLink); ?>" class="btn primary-btn" title="<?php printf(__('%s', 'karoon'), $learnMoreButtonLabel); ?>"><?php printf(__('%s', 'karoon'), $learnMoreButtonLabel); ?>
+                                        <i>
+                                            <img class="hidden" src="<?php echo get_template_directory_uri(); ?>/public/images/arrow-right.svg" alt="">
+                                            <img class="visible" src="<?php echo get_template_directory_uri(); ?>/public/images/arrow-right-hover.svg" alt="">
+                                        </i> 
+                                    </a>
+                                           
+                                        <?php } ?>
+                                
+                            </div>
+                            <span class="bg-color" style="background: <?php echo $blockBgColor ? $blockBgColor : '#56719c'?>;">
+                            </span>
+                        </div>   
+                        <div class="img-wrap">
+                            <?php if ($blockImageDesktop && $blockImageDesktop != '') { ?>
+                                <div class="img-container mobile-hide" style="background-image: url(<?php printf(__('%s', 'karoon'), $blockImageDesktop['url']); ?>)"></div>
+                            <?php } ?>
+
+                            <?php if ($blockImageMobile && $blockImageMobile != '') { ?>
+                                <div class="img-container mobile-show" style="background-image: url(<?php printf(__('%s', 'karoon'), $blockImageMobile['url']); ?>)"></div>
+                            <?php } else { ?>
+                                <div class="img-container mobile-show" style="background-image: url(<?php printf(__('%s', 'karoon'), $blockImageDesktop['url']); ?>)"></div>
+                            <?php } ?>
+                        </div>
+                            
+                        
+                                </div>                           
+                    </div>
+                    <?php
+                    $counter++;
+                }
+            }
+            ?>            
+        </div>
+    </section>  
+    <!-- End of Bottom Block Structure Section -->
+</main>
+<!-- Displaying map for homepage -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWarPa7zAj2_Au3Oqtmab0iiu_wZeuqWg"></script>
+<?php
+get_footer();
+?>
