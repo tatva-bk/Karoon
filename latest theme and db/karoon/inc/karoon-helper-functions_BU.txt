@@ -1,0 +1,545 @@
+<?php
+
+/**
+ * Creates 301 redirects for posts
+ */
+ 
+function karoon_change_wp_search_size($query) {
+    if ( $query->is_search ) 
+        $query->query_vars['posts_per_page'] = -1; 
+
+    return $query; // Return our modified query variables
+}
+
+add_filter('pre_get_posts', 'karoon_change_wp_search_size');
+
+
+/**
+ * Redirect category page to pages
+ */
+function karoon_category_template_redirect() {
+    
+    global $wp_query;
+    $taxonomy_details = $wp_query->get_queried_object();
+    
+    if(isset($taxonomy_details) && $taxonomy_details->taxonomy == 'category'){
+        if ( is_category( 'Community News' ) ) {
+            $redirectlink = get_permalink(get_page_by_path('Community News'));
+            if($redirectlink){
+              wp_redirect( $redirectlink, 301 );
+              exit;
+            }
+        }else if ( is_category( 'Investor News' ) || is_category( 'Presentations' ) ||  is_category( 'Annual Reports' )) {
+            $redirectlink = get_permalink(get_page_by_path('Investors'));
+            if($redirectlink){
+              wp_redirect( $redirectlink, 301 );
+              exit;
+            }
+        }else{
+            wp_redirect( site_url(), 301 );
+            exit;
+        }
+    }
+    
+}
+
+add_action( 'template_redirect', 'karoon_category_template_redirect' );
+
+/**
+ * Creates 301 redirects for posts
+ */
+function karoon_redirect_by_post() {
+ 
+   if ( is_single() && get_post_type() == 'post') {
+      global $post;
+     
+      $categories = get_the_category($post->ID);
+      if($categories[0]->term_id == 17 || $categories[0]->term_id == 46 || $categories[0]->term_id == 47){
+          $redirectlink = get_permalink(get_page_by_path('Community News'));
+          if($redirectlink){
+              wp_redirect( $redirectlink, 301 );
+              exit;
+          }
+      }
+      
+      if($categories[0]->term_id == 18 || $categories[0]->term_id == 19 || $categories[0]->term_id == 42 || $categories[0]->term_id == 44 || $categories[0]->term_id == 45 || $categories[0]->term_id == 43){
+          $pdflink = get_field('pdf_link');
+          if($pdflink){
+              wp_redirect( $pdflink, 301 );
+              exit;
+          }else{
+              $redirectlink = get_permalink(get_page_by_path('Investors'));
+              if($redirectlink){
+                  wp_redirect( $redirectlink, 301 );
+                  exit;
+              }
+          }
+      }
+      
+      $pdflink = get_field('pdf_link');
+      if($pdflink){
+          wp_redirect( $pdflink, 301 );
+          exit;
+      }
+   }
+    
+}
+add_action( 'template_redirect', 'karoon_redirect_by_post' );
+
+
+/* Add karoon text domain */
+
+add_action('after_setup_theme', 'karoon_textdomain');
+
+function karoon_textdomain() {
+    load_theme_textdomain('karoon', get_template_directory() . '/languages');
+}
+
+/**
+ * Admin Action for login page : Change wordpress logo on login page
+ */
+add_action('login_head', 'modify_admin_login_logo');
+
+if (!function_exists('modify_admin_login_logo')) {
+
+    function modify_admin_login_logo() {
+        $logoStyle = '<style type="text/css">';
+        $logoStyle .= '#login h1 a{ background-image: url(' . get_template_directory_uri() . '/public/images/logo.svg) !important; width:100%; background-size: 70%;}';
+        $logoStyle .= '</style>';
+        echo $logoStyle;
+    }
+
+}
+
+add_filter('login_headerurl', 'custom_loginlogo_url');
+
+function custom_loginlogo_url($url) {
+    return site_url();
+}
+
+/**
+ * Custom Image size
+ */
+add_image_size('project', 370, 273, true);
+add_image_size('gallery', 416, 240, true);
+add_image_size('media-video', 570, 280, true);
+add_image_size('report', 171, 241, true);
+add_image_size('home-feature-report', 143, 98, true);
+add_image_size('project-list', 199, 248, true);
+add_image_size('about_images', 498, 273, true);
+
+/**
+ * Allow SVG file Upload in Media Uploader
+ */
+add_filter('upload_mimes', 'karoon_allow_mime_types_upload');
+
+if (!function_exists('karoon_allow_mime_types_upload')) :
+
+    function karoon_allow_mime_types_upload($mimes) {
+        $mimes['svg'] = 'image/svg+xml';
+        $mimes['ico'] = 'image/x-icon';
+        return $mimes;
+    }
+
+endif;
+
+/**
+ * Add ACF Option page for theme general settings fields.
+ */
+if (function_exists('acf_add_options_page')) {
+
+    acf_add_options_page(array(
+        'page_title' => 'Theme General Settings',
+        'menu_title' => 'Theme Settings',
+        'menu_slug' => 'theme-general-settings',
+        'capability' => 'edit_posts',
+        'redirect' => false
+    ));
+}
+
+/**
+ * Ajax Filter for community news
+ */
+add_action('wp_ajax_newsFilter', 'newsFilter');
+add_action('wp_ajax_nopriv_newsFilter', 'newsFilter');
+
+function newsFilter() {
+    $postPerPage = '';
+    $paged = '';
+    $category = '';
+    $year = '';
+    $pageSlug = get_page_by_path('community-news');
+    $pageIdNews = $pageSlug->ID;
+
+    if (isset($_POST['postperpage']) && $_POST['postperpage'] != '') {
+        $postPerPage = $_POST['postperpage'];
+        $argsNews['year'] = $year;
+    }
+    if (isset($_POST['pagenumber']) && $_POST['pagenumber'] != '') {
+        $paged = $_POST['pagenumber'];
+    }
+    if (isset($_POST['category']) && $_POST['category'] != '') {
+        $category = $_POST['category'];
+    }
+    //$argsNews = array('posts_per_page' => $postPerPage, 'paged' => $paged, 'cat' => $category);
+    if (isset($_POST['postyear']) && $_POST['postyear'] != '') {
+        $year = $_POST['postyear'];
+        $argsNews['year'] = $year;
+    }
+
+    $readStoryBtn = get_field('read_story_button_label', 'option');
+    //$argsNews = array('posts_per_page' => 2, 'paged' => $paged,'cat' => $newsCategory);
+    $argsNews = array('posts_per_page' => $postPerPage, 'paged' => $paged, 'cat' => $category);
+    $catQuery = new WP_Query($argsNews);
+    ?>
+    <div class="row content-block">
+        <div class="col-12">
+            <?php
+            $catQueryPostCount = $catQuery->post_count;
+            if ($catQuery->have_posts()) {
+                $countPost = 1;
+                while ($catQuery->have_posts()) {
+                    $catQuery->the_post();
+                    if ($countPost % 2 == 0 || $catQueryPostCount == 1) {
+                        $lastPostClass = "no-border-post";
+                    }
+                    ?>
+
+                    <div class="comp__collapse-block news-article <?= $lastPostClass ? $lastPostClass : '' ?>">
+                        <div class="coll-outer">
+                            <div class="coll-body">
+                                <div class="row pad-0">
+                                    <div class="col-12">
+                                        <h5><?php printf(__('%s', 'karoon'), get_the_title($catQuery->ID)); ?></h5>
+                                        <span><?php printf(__('%s', 'karoon'), the_time('l, F d, Y')); ?></span>
+                                        <div class="community-content">
+                                            <?php printf(__('%s', 'karoon'), the_content()); ?>
+
+                                            <?php if (have_rows('image_gallery')) { ?>
+                                                <div class="image-gallery row clearfix">
+                                                    <?php
+                                                    while (have_rows('image_gallery')) {
+                                                        the_row();
+                                                        $imageArray = get_sub_field("image");
+                                                        ?>
+                                                        <a href="<?php echo $imageArray['url']; ?>" data-fancybox="news-gallery<?php echo $catQuery->ID . "-" . $countGal; ?>" class="article-images-wrap col-md-3 col-sm-6 col-12">
+                                                            <img src="<?php echo $imageArray['sizes']['gallery']; ?>" alt="">
+                                                        </a>
+                                                    <?php } ?>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <?php
+                    $countPost++;
+                }
+                wp_reset_query();
+                wp_reset_postdata();
+            } else {
+                ?>
+                <h5><?php _e('No Result Found!', 'karoon'); ?></h5>
+                <?php
+            }
+            ?>
+
+        </div>
+    </div>
+    <?php
+    if (get_field("full_width_image", $pageIdNews)) {
+        $fulImageDesktop = get_field("full_width_image", $pageIdNews);
+        $fulImageMobile = get_field("full_width_image_for_mobile", $pageIdNews);
+        ?>
+        <div class="comp__image-separator no-border-section">
+            <div class="img-wrap">                    
+                <img src="<?php echo $fulImageDesktop['url']; ?>" alt="" class="mobile-hide">
+                <?php if (get_field("full_width_image", $post->ID)) { ?>
+                    <img src="<?php echo $fulImageMobile['url']; ?>" alt="" class="mobile-show">    
+                <?php } else { ?>
+                    <img src="<?php echo $fulImageDesktop['url']; ?>" alt="" class="mobile-show"> 
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+    <!--<div class="row content-block">
+        <div class="col-12">
+    <?php
+    if ($catQuery->have_posts()) {
+        $countGal = 1;
+        while ($catQuery->have_posts()) {
+            $catQuery->the_post();
+            ?>
+                                                                                            <div class="comp__collapse-block news-article">
+                                                                                                <div class="coll-outer">
+                                                                                                    <div class="coll-body">
+                                                                                                        <div class="row pad-0">
+                                                                                                            <div class="col-12">
+                                                                                                                <h5><?php printf(__('%s', 'karoon'), get_the_title($catQuery->ID)); ?></h5>
+                                                                                                                <span><?php printf(__('%s', 'karoon'), the_time('l, F d, Y')); ?></span>
+                                                                                                                <div class="collapsable-content">
+            <?php printf(__('%s', 'karoon'), the_content()); ?>
+
+            <?php if (have_rows('image_gallery')) { ?>
+                                                                                                                                                            <div class="image-gallery row">
+                <?php
+                while (have_rows('image_gallery')) {
+                    the_row();
+                    $imageArray = get_sub_field("image");
+                    ?>
+                                                                                                                                                                                                        <a href="<?php echo $imageArray['url']; ?>" data-fancybox="news-gallery<?php echo $catQuery->ID . "-" . $countGal; ?>" class="article-images-wrap col-md-3 col-sm-6 col-12">
+                                                                                                                                                                                                            <img src="<?php echo $imageArray['sizes']['gallery']; ?>" alt="">
+                                                                                                                                                                                                        </a>
+                <?php } ?>
+                                                                                                                                                            </div>
+            <?php } ?>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="bt-wrap">
+                                                                                                        <a href="#" class="coll-trigger btn-toggle" data-text="<?php printf(__('%s', 'karoon'), $readStoryBtn); ?>">
+                                                                                                            <span class="button-text"><?php printf(__('%s', 'karoon'), $readStoryBtn); ?></span>
+                                                                                                        </a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+            <?php
+            $countGal = $countGal + 1;
+        }
+        wp_reset_query();
+        wp_reset_postdata();
+    } else {
+        ?>
+                                                    <h5><?php _e('No Result Found!', 'karoon'); ?></h5>
+    <?php }
+    ?>
+
+        </div>
+    </div>-->
+    <div class="container">
+        <div class="row content-block">
+            <div class="col-12 communityBlock">
+
+                <?php
+                $big = 999999999; // need an unlikely integer
+                $max = intval($catQuery->max_num_pages);
+                $query->query_vars['paged'] = $paged;
+                echo numeric_pagination($max, $catQuery);
+                ?>
+
+            </div>
+        </div>
+    </div>
+
+    <?php
+    exit;
+}
+
+/**
+ * Ajax Filter for Investor and PResentations news
+ */
+add_action('wp_ajax_investorFilter', 'investorFilter');
+add_action('wp_ajax_nopriv_investorFilter', 'investorFilter');
+
+function investorFilter() {
+    $postPerPage = '';
+    $paged = '';
+    $category = '';
+    $year = '';
+
+    if (isset($_POST['postperpage']) && $_POST['postperpage'] != '') {
+        $postPerPage = $_POST['postperpage'];
+    }
+    if (isset($_POST['pagenumber']) && $_POST['pagenumber'] != '') {
+        $paged = $_POST['pagenumber'];
+    }
+    if (isset($_POST['category']) && $_POST['category'] != '') {
+        $category = $_POST['category'];
+    }
+    if (isset($_POST['postyear']) && $_POST['postyear'] != '') {
+        $year = $_POST['postyear'];
+    }
+
+    $viewBtn = get_field('view_button_label', 'option');
+    $argsNews = array('posts_per_page' => $postPerPage, 'post_status' => 'publish', 'orderby' => 'date', 'order' => 'DESC', 'paged' => $paged, 'cat' => $category, 'year' => $year);
+    $catQuery = new WP_Query($argsNews);
+    ?>
+    <div class="coll-body">
+        <?php
+        if ($catQuery->have_posts()) {
+            while ($catQuery->have_posts()) {
+                $catQuery->the_post();
+                $pdfLink = get_field("pdf_link");
+                if ($category == 18) {
+                    ?>
+                    <div class="row">
+                        <div class="col-10 policies-row">
+                        <?php } else { ?>
+                            <div class="row policies-row">
+                                <div class="col-10">
+                                <?php } ?>
+                                <p><?php printf(__('%s', 'karoon'), get_the_title($catQuery->ID)); ?></p>
+                                <span><?php printf(__('%s', 'karoon'), the_time('l, F d, Y')); ?></span>
+                            </div>
+                            <?php if ($pdfLink && $pdfLink != '') { ?>
+                                <div class="col-2 text-right">
+                                    <a href="<?php echo $pdfLink; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <?php
+                    }
+                    wp_reset_query();
+                    wp_reset_postdata();
+                } else {
+                    if ($category == 18) {
+                        ?>
+                        <div class="row">
+                            <div class="col-10 policies-row">
+                            <?php } else { ?>
+                                <div class="row policies-row">
+                                    <div class="col-10">
+                                    <?php } ?>
+                                    <p><?php _e('No Result Found!', 'karoon'); ?> </p>
+                                </div>
+
+                            </div>
+                        <?php }
+                        ?>
+                    </div>
+
+                    <?php
+                    $big = 999999999; // need an unlikely integer
+                    $max = intval($catQuery->max_num_pages);
+                    $query->query_vars['paged'] = $paged;
+                    echo numeric_pagination($max, $catQuery);
+                    ?>
+
+                    <?php
+                    exit;
+                }
+
+// Cuatom Pagination
+                function numeric_pagination($pageCount = 9, $query = null) {
+                    if ($query == null) {
+                        global $wp_query;
+                        $query = $wp_query;
+                    }
+                    if ($query->max_num_pages <= 1) {
+                        return;
+                    }
+                    $pageStart = 1;
+                    $pageDisplayCounter = 1;
+                    $paged = $query->query_vars['paged'];
+                    // set current page if on the first page
+                    if ($paged == null) {
+                        $paged = 1;
+                    }
+                    // work out if page start is halfway through the current visible pages and if so move it accordingly
+                    if ($paged > floor($pageCount / 2)) {
+                        $pageStart = $paged - floor($pageCount / 2);
+                    }
+                    /* $paged >=3 condition added - 20-12-2018 */
+                    if ($pageStart < 1 || $paged >= 3) {
+                        $pageStart = 1;
+                    }
+
+                    // make sure page start is
+                    if ($pageStart + $pageCount > $query->max_num_pages) {
+                        $pageCount = $query->max_num_pages - $pageStart;
+                    }
+                    ?>
+                    <ul class="pagination page-numbers">
+
+                        <?php if ($paged == 1) { ?>
+                            <li class="not-active" ><span><?php _e('First ', 'karoon'); ?></span>&lt;&lt; </li>
+                        <?php } else { ?>  
+                            <li><a href="#" class="page-numbers" data-id="1"><span><?php _e('First ', 'karoon'); ?></span>&lt;&lt; </a></li>
+                        <?php } ?>
+                        <?php
+                        // first page is not visible...
+                        if ($pageStart > 1) {
+                            //echo 'previous';
+                        }
+
+                        if ($paged > 3) {
+                            if ($paged == $query->max_num_pages) {
+                                if($query->max_num_pages > 10) {
+                                    $pageStart = $query->max_num_pages - 10;
+                                }
+                            } elseif ($paged == $query->max_num_pages - 1 || $paged == $query->max_num_pages - 2 || $paged == $query->max_num_pages - 3 || $paged == $query->max_num_pages - 4 || $paged == $query->max_num_pages - 5 || $paged == $query->max_num_pages - 6 || $paged == $query->max_num_pages - 7 || $paged == $query->max_num_pages - 8) {
+                                
+                                
+                                $pageStart = $query->max_num_pages - 9;
+                            } else {
+                                
+                                $pageStart = $paged - 2;
+                            }
+                        }
+
+                        for ($p = $pageStart; $p <= $pageStart + $pageCount; $p ++) {
+                            if ($p == $paged) {
+                                //echo "entered";
+                                ?>
+                                <li class="active"><span class="page-numbers page-number-<?php echo $p; ?> current-numeric-page"><?php echo $p; ?></span></li>
+                                <?php
+                            } else {
+                                if ($pageDisplayCounter > 10) {
+                                    continue;
+                                }
+                                //echo "entered else";
+                                ?>
+                                <li><a href="#" class="page-numbers page-number-<?php echo $p; ?>" data-id="<?php echo $p; ?>"><?php echo $p; ?></a></li>
+
+                                <?php
+                            }
+                            $pageDisplayCounter++;
+                        }
+                        // last page is not visible
+                        if ($pageStart + $pageCount < $query->max_num_pages) {
+                            //echo "last";
+                        }
+                        ?>
+
+                        <?php if ($paged == $query->max_num_pages) { ?>
+                            <li class="not-active"> &gt;&gt;<span><?php _e(' Last', 'karoon'); ?></span></li>  
+                        <?php } else { ?>               
+                            <li><a href="#" class="page-numbers page-number-last" data-id="<?php echo $query->max_num_pages; ?>"> &gt;&gt;<span><?php _e(' Last', 'karoon'); ?></span></a></li>
+                            <?php } ?>
+
+                    </ul>
+                    <?php
+                }
+
+                /*
+                 * Shortcode to display gallery images of particular posts
+                 */
+
+                function post_image_shortcode($atts) {
+                    extract(shortcode_atts(array(
+                        'post_id' => ' ',
+                            ), $atts));
+                    $itemsgallery = "";
+                    if (!empty($atts['post_id'])) {
+                        $post_id = $atts['post_id'];
+                        if (have_rows('image_gallery', $post_id)) {
+                            $itemsgallery = '<div class="image-gallery row clearfix gallery-class">';
+                            while (have_rows('image_gallery', $post_id)) {
+                                the_row();
+                                $imageArray = get_sub_field("image", $post_id);
+                                $itemsgallery .= '<a href="' . $imageArray["url"] . '" data-fancybox="news-gallery" class="article-images-wrap col-md-3 col-sm-6 col-12">';
+                                $itemsgallery .= '<img src="' . $imageArray["sizes"]["gallery"] . '" alt="">';
+                                $itemsgallery .= '</a>';
+                            }
+                            $itemsgallery .= '</div>';
+                        }
+                    }
+                    return $itemsgallery;
+                }
+
+                add_shortcode('postimages', 'post_image_shortcode');
+                

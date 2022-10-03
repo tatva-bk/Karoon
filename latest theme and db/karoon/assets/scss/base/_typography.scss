@@ -1,0 +1,91 @@
+h1 {
+    @include rem-px(font-size, 43);
+    @include rem-px(line-height, 47);
+    font-family: $secondary-font;
+    font-weight: 900;
+    @include bp(tab-landscape) {
+        @include rem-px(font-size, 39);
+        @include rem-px(line-height, 42);
+    }
+    .home-page & {
+        @include rem-px(max-width, 860);
+        color: $white;
+    }
+
+    @include bp(lg-max) {
+        @include rem-px(font-size, 34);
+        @include rem-px(line-height, 38);
+    }
+    @include bp(sm-max) {
+        @include rem-px(font-size, 25);
+        @include rem-px(line-height, 27);
+    }
+}
+
+h2 {
+    @include rem-px(font-size, 26);
+    @include rem-px(line-height, 31);
+    @include rem-px(margin-bottom, 37);
+    font-weight: 600;
+    color: $primary-color;
+    @include bp(lg-max) {
+        @include rem-px(font-size, 18);
+        @include rem-px(line-height, 22);
+    }
+}
+
+h3 {
+    @include rem-px(font-size, 24);
+    @include rem-px(line-height, 28);
+    @include rem-px(margin-bottom, 37);
+    font-weight: 600;
+    color: $primary-color;
+    @include bp(lg-max) {
+        @include rem-px(font-size, 18);
+        @include rem-px(line-height, 22);
+    }
+    @include bp(sm-max) {
+        @include rem-px(margin-bottom, 25);
+    }
+}
+
+h4 {
+    @include rem-px(font-size, 18);
+    @include rem-px(line-height, 22);
+    @include rem-px(margin-bottom, 37);
+    font-weight: 600;
+    color: $primary-color;
+    @include bp(lg-max) {
+        @include rem-px(font-size, 18);
+        @include rem-px(line-height, 22);
+    }
+}
+
+h5 {
+    @include rem-px(font-size, 18);
+    @include rem-px(line-height, 22);
+    font-weight: 700;
+    @include bp(tab-landscape) {
+        @include rem-px(font-size, 15);
+        @include rem-px(line-height, 18);
+    }
+}
+
+h6 {
+    @include rem-px(font-size, 18);
+    @include rem-px(line-height, 22);
+    font-weight: 700;
+    @include bp(tab-landscape) {
+        @include rem-px(font-size, 15);
+        @include rem-px(line-height, 18);
+    }
+}
+
+p {
+    @include rem-px(font-size, 16);
+    @include rem-px(line-height, 19);
+    @include bp(tab-landscape) {
+        @include rem-px(font-size, 14);
+        @include rem-px(line-height, 19);
+    }
+}

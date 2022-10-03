@@ -1,0 +1,195 @@
+.banner {
+    // display: flex;
+    position: relative;
+    // align-items: center;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    @include bp(md-max) {
+        min-height: 10px;
+    }
+    @include bp(tab-landscape) {
+        margin-bottom: 25px;
+    }
+    @include bp(sm-max) {
+        align-items: baseline;
+        // padding-top: 100px;
+    }
+    .banner-img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .homepage-banner{
+        .item{
+            align-items: center;
+            display: flex;
+            .banner-img {
+                // position: relative;
+                 &::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 332px 498px 0 0;
+                    border-color: rgba($white, 0.1) transparent transparent transparent;
+                    z-index: 2;
+                    @include bp(tab-landscape) {
+                        border-width: 332px 500px 0 0;
+                    }
+                }
+            }
+        }
+        .owl-dots{
+            position: absolute;
+            bottom: 54px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+
+            .owl-dot{
+                display: flex;
+                align-content: center;
+                justify-content: center;
+                width: 200px;
+                height: 20px;
+                @include bp(sm-max) {
+                    width: 80px;
+                }
+                span{
+                    width: 170px;
+                    height: 3px;
+                    background: rgba($white, 0.6);
+                    margin: 0;
+                    display: block;
+                    @include transition(0.3s all ease);
+                    @include bp(sm-max) {
+                        width: 90%;
+                    }
+                }
+                &.active{
+                    span{
+                        background: rgba($white, 1);
+                    }    
+                }
+            }
+            &.disabled{
+                display: none;
+            }
+        }
+    }
+    .banner-content {
+        width: 100%;
+        .container {
+            @include bp(sm-max) {
+                @include rem-px(padding, 0, 50, 0, 30);
+            }
+            @include bp(xxxs-max) {
+                @include rem-px(padding, 0, 30);
+            }
+        }
+        h1{
+            .home-page &{
+                @include rem-px(font-size, 62);
+                @include rem-px(line-height, 66);
+                @include bp(tab-landscape) {
+                    @include rem-px(font-size, 39);
+                    @include rem-px(line-height, 42);
+                }
+            
+                @include bp(lg-max) {
+                    @include rem-px(font-size, 34);
+                    @include rem-px(line-height, 38);
+                }
+                @include bp(sm-max) {
+                    @include rem-px(font-size, 25);
+                    @include rem-px(line-height, 27);
+                }
+            }       
+        }
+    }
+    &.inner-banner {
+        @include rem-px(min-height, 420);
+        @include bp(tab-landscape) {
+            @include rem-px(min-height, 370);
+            @include rem-px(margin-bottom, 20);
+        }
+        @include bp(sm-max) {
+            @include rem-px(min-height, 250);
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 600px 0 0 900px;
+            border-color: transparent transparent transparent rgba($white, 0.1);
+            z-index: 2;
+            @include bp(tab-landscape) {
+                border-width: 450px 0 0 500px;
+            }
+            @include bp(sm-max) {
+                border-width: 121px 0 0 178px;
+                top: auto;
+            }
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 900px 600px 0;
+            border-color: transparent rgba($white, 0.1) transparent transparent;
+            z-index: 2;
+            @include bp(tab-landscape) {
+                border-width: 0 500px 450px 0;
+            }
+            @include bp(sm-max) {
+                border-width: 0 178px 121px 0;
+            }
+        }
+        .item{
+            height: 6.04rem !important;
+            @include bp(tab-landscape) {
+                height: 4.5rem !important;
+            }
+            @include bp(sm-max) {
+                height: 2.5rem !important;
+            }
+        }
+    }
+}
+
+
+@media screen and (orientation:portrait) and (min-height: 1365px) and (max-width:1024px) {
+    .home-page .banner,
+    .home-page .banner .item {
+        height: 900px !important
+    }
+}
+@media (max-width: 991px) and (max-height: 640px) {
+    .banner .homepage-banner .owl-dots{
+        bottom: 15px;
+    }
+}
+@media (max-width: 1024px) and (max-height: 768px) {
+    .banner {
+        min-height: 10px;
+    }
+}

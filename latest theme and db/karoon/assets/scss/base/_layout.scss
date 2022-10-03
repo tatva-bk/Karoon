@@ -1,0 +1,211 @@
+//1pt=1px
+::-moz-selection {
+    color: $white;
+    background: $primary-color;
+}
+
+::selection {
+    color: $white;
+    background: $primary-color;
+}
+
+*,
+*:focus {
+    outline: none;
+    border-radius: 0;
+    -o-border-radius: 0;
+    -ms-border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    box-shadow: none;
+    -o-box-shadow: none;
+    -ms-box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+*:focus {
+    outline: 0 !important;
+}
+
+html {
+    font-size: 10px;
+    height: 100%;
+}
+
+body {
+    @include rem-px(font-size, 16);
+    @include rem-px(line-height, 19);
+    color: $font-color;
+    height: 100%;
+    font-family: $primary-font;
+    background: $white;
+    @include bp(tab-landscape) {
+        @include rem-px(font-size, 14);
+        @include rem-px(line-height, 18);
+    }
+}
+
+.menu-open {
+    overflow: hidden !important;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    -webkit-appearance: none;
+}
+
+button {
+    border: 0;
+}
+
+.btn:focus,
+.btn.focus {
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.wrapper {
+    min-height: 100%;
+}
+
+main {
+    @include rem-px(padding-top, 172);
+    @include transition(all 0.3s);
+    .small-header & {
+        @include rem-px(padding-top, 51);
+    }
+    @include bp(lg-max) {
+        @include rem-px(padding-top, 130);
+        .small-header & {
+            @include rem-px(padding-top, 47);
+        }
+    }
+    @include bp(md-max) {
+        @include rem-px(padding-top, 112);
+        .small-header & {
+            @include rem-px(padding-top, 45);
+        }
+    }
+    @include bp(sm-max) {
+        @include rem-px(padding-top, 69);
+        .small-header & {
+            @include rem-px(padding-top, 12);
+        }
+    }
+}
+
+a {
+    @include transition(all 0.3s);
+    text-decoration: none;
+    color: $primary-color;
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        color: #5b6770;
+    }
+    &:after {
+        @include transition(all 0.3s);
+    }
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    li {
+        list-style: none;
+    }
+}
+
+img {
+    max-width: 100%
+}
+
+section {
+    position: relative;
+    @include rem-px(margin-bottom, 35);
+    @include bp(sm-max) {
+        @include rem-px(margin-bottom, 20);
+    }
+    &.with-padding {
+        @include rem-px(padding, 65, 0);
+        @include rem-px(margin-bottom, 28);
+        @include bp(md-max) {
+            @include rem-px(padding, 35, 0);
+        }
+        @include bp(sm-max) {
+            @include rem-px(padding, 0);
+        }
+    }
+}
+
+.banner-content , footer , header{
+    .container {
+        @include bp(md-max) {
+            padding: 0 30px;
+        }
+    }
+}
+
+.home-page-news {
+    .container ,.row{
+        @include bp(md-max) {
+            padding: 0;
+            margin: 0;
+        }
+    }
+}
+
+.mobile-hide {
+    @include bp(sm-max) {
+        display: none;
+    }
+}
+
+.mobile-show {
+    display: none;
+    @include bp(sm-max) {
+        display: block;
+    }
+}
+.pt-25{
+    padding-top: 25px !important;
+}
+.mb-20{
+    margin-bottom: 20px !important;
+}
+ .blank-news-title{height: 0;margin: 0}
+
+
+
+
+
+.touch-device{
+    @media (min-width:1023px){
+        // header nav>ul>li>ul li:hover{
+        //     background: #009fe3;
+        // }
+        // header nav>ul>li>ul li:hover a{
+        //     color: #FFFFFF;
+        // }
+        header nav>ul>li>ul li.active-menu-item{
+            background: #FFFFFF;
+        }
+        header nav>ul>li>ul li.active-menu-item > a{
+            color: #009fe3;
+        }
+        header nav>ul> .focused em{
+            opacity: 1;
+            visibility: visible;
+        }
+        header nav>ul>li> a,  header nav>ul>li.active>a, header nav>ul>li.current-menu-item>a{
+            pointer-events:none !important;
+        }
+        header nav>ul>li.focused> a, header nav>ul>li.focused.active>a, header nav>ul>li.focused.current-menu-item>a{
+            pointer-events:inherit !important;
+        }
+    }
+ }

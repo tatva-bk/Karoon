@@ -1,0 +1,26 @@
+{
+  "name": "Karoon",
+  "description": "",
+  "main": "gulpfile.js",
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.6",
+    "css3-animate-it": "^1.0.3",
+    "owl.carousel": "^2.3.4",
+    "jQuery": "2.2.4",
+    "fastclick": "^1.0.6"
+  },
+  "devDependencies": {
+    "dropkick": "^2.2.5",
+    "fastclick": "^1.0.6"
+  }
+}

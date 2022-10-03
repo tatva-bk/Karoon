@@ -1,0 +1,115 @@
+.form-control {
+    border: 1px solid $text-box-border;
+    @include rem-px(height, 37);
+    border-radius: 0;
+    @include rem-px(font-size, 14);
+    @include rem-px(line-height, 16);
+    color: $font-color;
+    font-family: $primary-font;
+    &:focus {
+        border: 1px solid $text-box-border;
+        box-shadow: none;
+    }
+}
+
+
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $font-color;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $font-color;
+}
+
+:-ms-input-placeholder {
+    /* IE 10+ */
+    color: $font-color;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: $font-color;
+}
+
+
+.btn {
+    @include rem-px(font-size, 14);
+    @include rem-px(line-height, 16);
+    @include rem-px(height, 32);
+    @include rem-px(padding, 0, 20, 1);
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    @include transition(all 0.3s);
+    background: transparent;;
+    @include bp(sm-max) {
+        @include rem-px(height, 26);
+        @include rem-px(font-size, 12);
+        @include rem-px(line-height, 9);
+    }
+    &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        transition: width ease 0.3s;
+        -webkit-transition: width ease 0.3s;
+        -ms-transition: width ease 0.3s;
+        width: 0;
+        opacity: 0;
+        z-index: -1;
+    }
+    &:before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        @include transition(all 0.3s);
+        z-index: -1;
+        transition: width ease 0.3s;
+        -webkit-transition: width ease 0.3s;
+        -ms-transition: width ease 0.3s;
+    }
+    &:hover,
+    &:focus {
+        &:after {
+            opacity: 1;
+            width: 100%;
+        }
+        &:before{
+            opacity: 0;
+            width: 100%;
+        }
+    }
+    &.primary-btn {
+        color: $secondary-color;
+        border: 1px solid $secondary-color;
+        &:after , &:before{
+            background: $secondary-color;
+        }
+
+        &:hover,
+        &:focus {
+            color: $white;
+        }
+    }
+    &.secondary-btn {
+        color: $white;
+        border: 1px solid $white;
+        &:after , &:before{
+            background: $white;
+        }
+        &:hover,
+        &:focus {
+            color: $secondary-color;
+        }
+    }
+}
