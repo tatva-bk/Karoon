@@ -1,0 +1,769 @@
+<?php
+/* Template Name: Investor Template */
+
+get_header();
+
+$newsTitle = get_field('news_section_title', $post->ID);
+$newsTitle2 = get_field('news_section_title_2', $post->ID);
+$newsTitle3 = get_field('news_section_title_3', $post->ID);
+$presentTitle = get_field('presentations_section_title', $post->ID);
+$featurereportTitle = get_field('annual_report_feature_title', $post->ID);
+$annualreportTitle = get_field('annual_reports_section_title', $post->ID);
+$annualmeetingTitle = get_field('annual_meetings_section_title', $post->ID);
+$analystTitle = get_field('analyst_coverage_section_title', $post->ID);
+$financialcalendarTitle = get_field('financial_calendar_section_title', $post->ID);
+$glossaryTitle = get_field('glossary_and_conversions_section_title', $post->ID);
+$abbrevTitle = get_field('abbrivation_section_title', $post->ID);
+$orderTitle = get_field('order_terms_section_title', $post->ID);
+$induTitle = get_field('industry_standard_section_title', $post->ID);
+$speTitle = get_field('spe_reserve_definitions_title', $post->ID);
+$yearBtn = get_field('year_button_label', 'option');
+$readMoreBtn = get_field('read_more_button_label', 'option');
+$viewBtn = get_field('view_button_label', 'option');
+$viewAllBtn = get_field('view_all_button_label', 'option');
+?>
+
+<main class="inner-page">
+    <section class="banner inner-banner karoon-inner-banner">
+        <?php get_template_part('template-parts/banner', 'content'); ?>
+    </section>
+
+    <section class="section sec__investor investor-page-wrapper">
+        <div class="karoon-container analyst-coverage">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="karoon-main-title"><?php printf(__('%s', 'karoon'), get_the_title($post->ID)); ?></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+
+                            <?php
+                    if (get_field("investor_news", $post->ID)) {
+                        $newsCategory = get_field("investor_news", $post->ID);
+                        $argsNews = array('posts_per_page' => 5, 'post_status' => 'publish', 'orderby' => 'date', 'order' => 'DESC', 'cat' => $newsCategory);
+                        $catQuery = new WP_Query($argsNews);
+                        ?>
+                        <div class="comp__collapse-block investor_news">
+                            <div class="coll-outer" id="investornblock">
+                                <div class="coll-header sec-title filter-box" id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($newsTitle))); ?>">
+                                    <?php if ($newsTitle && $newsTitle != '') { ?>
+                                        <h2><?php printf(__('%s', 'karoon'), $newsTitle); ?></h2>
+                                    <?php } ?>
+
+                                    <div class="filter-outer">
+                                        <select class="custom_dropdown small" id="investyear-list">
+                                            <?php if ($yearBtn && $yearBtn != '') { ?>
+                                                <option value=""><?php printf(__('%s', 'karoon'), $yearBtn); ?></option>
+                                            <?php } ?>
+                                            <?php wp_get_archives(array('type' => 'yearly', 'format' => 'option', 'post_type' => 'post')); ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div id="loader" style="display:none;"><img src="<?php echo get_template_directory_uri(); ?>/public/images/loader.gif" alt="" /> </div>
+                                <div id="communityNews" data-id="<?php echo $newsCategory ?>" >
+
+                                    <div class="coll-body">
+                                        <?php
+                                        if ($catQuery->have_posts()) {
+                                            while ($catQuery->have_posts()) {
+                                                $catQuery->the_post();
+                                                $pdfLink = get_field("pdf_link");
+                                                $report_external_link = get_field("report_external_link");
+                                                ?>
+                                                <div class="row">
+                                                    <div class="col-10 policies-row">
+                                                        <p><?php printf(__('%s', 'karoon'), get_the_title($catQuery->ID)); ?></p>
+                                                        <span><?php printf(__('%s', 'karoon'), the_time('l, F d, Y')); ?></span>
+                                                    </div>
+                                                    <?php if ($pdfLink && $pdfLink != '') { ?>
+                                                        <div class="col-2 text-right">
+                                                            <a href="<?php echo $pdfLink; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                                        </div>
+                                                    <?php } else if($report_external_link && $report_external_link!= '') {
+                                                        ?>
+                                                        <div class="col-2 text-right">
+                                                            <a href="<?php echo $report_external_link; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                                        </div>
+                                                        <?php
+                                                    }?>
+                                                </div>
+                                                <?php
+                                            }
+                                            wp_reset_query();
+                                            wp_reset_postdata();
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <?php
+                                    $max = intval($catQuery->max_num_pages);
+                                    // Custom Pagination
+                                    echo numeric_pagination($max, $catQuery)
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    
+                    
+                    
+                    
+                    
+                    <div class="row">
+                <div class="col-12">
+
+                            <?php
+                    if (get_field("investor_news_2", $post->ID)) {
+                        $newsCategory2 = get_field("investor_news_2", $post->ID);
+                        $argsNews2 = array('posts_per_page' => 8, 'post_status' => 'publish', 'orderby' => 'date', 'order' => 'DESC', 'cat' => $newsCategory2);
+                        $catQuery2 = new WP_Query($argsNews2);
+                        ?>
+                        <div class="comp__collapse-block investor_news">
+                            <div class="coll-outer" id="investornblock2">
+                                <div class="coll-header sec-title filter-box" id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($newsTitle2))); ?>">
+                                    <?php if ($newsTitle2 && $newsTitle2 != '') { ?>
+                                        <h2><?php printf(__('%s', 'karoon'), $newsTitle2); ?></h2>
+                                    <?php } ?>
+
+                                    <div class="filter-outer">
+                                        <select class="custom_dropdown small" id="investyear-list">
+                                            <?php if ($yearBtn && $yearBtn != '') { ?>
+                                                <option value=""><?php printf(__('%s', 'karoon'), $yearBtn); ?></option>
+                                            <?php } ?>
+                                            <?php wp_get_archives(array('type' => 'yearly', 'format' => 'option', 'post_type' => 'post')); ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div id="loader" style="display:none;"><img src="<?php echo get_template_directory_uri(); ?>/public/images/loader.gif" alt="" /> </div>
+                                <div id="communityNews" data-id="<?php echo $newsCategory2 ?>" >
+
+                                    <div class="coll-body">
+                                        <?php
+                                        if ($catQuery->have_posts()) {
+                                            while ($catQuery2->have_posts()) {
+                                                $catQuery2->the_post();
+                                                $pdfLink = get_field("pdf_link");
+                                                $report_external_link = get_field("report_external_link");
+                                                ?>
+                                                <div class="row">
+                                                    <div class="col-10 policies-row">
+                                                        <p><?php printf(__('%s', 'karoon'), get_the_title($catQuery2->ID)); ?></p>
+                                                        <span><?php printf(__('%s', 'karoon'), the_time('l, F d, Y')); ?></span>
+                                                    </div>
+                                                    <?php if ($pdfLink && $pdfLink != '') { ?>
+                                                        <div class="col-2 text-right">
+                                                            <a href="<?php echo $pdfLink; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                                        </div>
+                                                    <?php } else if($report_external_link && $report_external_link!= '') {
+                                                        ?>
+                                                        <div class="col-2 text-right">
+                                                            <a href="<?php echo $report_external_link; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                                        </div>
+                                                        <?php
+                                                    }?>
+                                                </div>
+                                                <?php
+                                            }
+                                            wp_reset_query();
+                                            wp_reset_postdata();
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <?php
+                                    //$max2 = intval($catQuery->max_num_pages);
+                                    // Custom Pagination
+                                    // echo numeric_pagination($max2, $catQuery)
+                                    echo "Note: older quarterly reports are available under ASX Releases";
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    
+                    
+                    
+                      <div class="row">
+                <div class="col-12">
+
+                            <?php
+                    if (get_field("investor_news_3", $post->ID)) {
+                        $newsCategory3 = get_field("investor_news_3", $post->ID);
+                        $argsNews3 = array('posts_per_page' => 8, 'post_status' => 'publish', 'orderby' => 'date', 'order' => 'DESC', 'cat' => $newsCategory3);
+                        $catQuery3 = new WP_Query($argsNews3);
+                        ?>
+                        <div class="comp__collapse-block investor_news">
+                            <div class="coll-outer" id="investornblock3">
+                                <div class="coll-header sec-title filter-box" id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($newsTitle3))); ?>">
+                                    <?php if ($newsTitle3 && $newsTitle3 != '') { ?>
+                                        <h2><?php printf(__('%s', 'karoon'), $newsTitle3); ?></h2>
+                                    <?php } ?>
+
+                                    <div class="filter-outer">
+                                        <select class="custom_dropdown small" id="investyear-list">
+                                            <?php if ($yearBtn && $yearBtn != '') { ?>
+                                                <option value=""><?php printf(__('%s', 'karoon'), $yearBtn); ?></option>
+                                            <?php } ?>
+                                            <?php wp_get_archives(array('type' => 'yearly', 'format' => 'option', 'post_type' => 'post')); ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div id="loader" style="display:none;"><img src="<?php echo get_template_directory_uri(); ?>/public/images/loader.gif" alt="" /> </div>
+                                <div id="communityNews" data-id="<?php echo $newsCategory3 ?>" >
+
+                                    <div class="coll-body">
+                                        <?php
+                                        if ($catQuery->have_posts()) {
+                                            while ($catQuery3->have_posts()) {
+                                                $catQuery3->the_post();
+                                                $pdfLink = get_field("pdf_link");
+                                                $report_external_link = get_field("report_external_link");
+                                                ?>
+                                                <div class="row">
+                                                    <div class="col-10 policies-row">
+                                                        <p><?php printf(__('%s', 'karoon'), get_the_title($catQuery->ID)); ?></p>
+                                                        <span><?php printf(__('%s', 'karoon'), the_time('l, F d, Y')); ?></span>
+                                                    </div>
+                                                    <?php if ($pdfLink && $pdfLink != '') { ?>
+                                                        <div class="col-2 text-right">
+                                                            <a href="<?php echo $pdfLink; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                                        </div>
+                                                    <?php } else if($report_external_link && $report_external_link!= '') {
+                                                        ?>
+                                                        <div class="col-2 text-right">
+                                                            <a href="<?php echo $report_external_link; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                                        </div>
+                                                        <?php
+                                                    }?>
+                                                </div>
+                                                <?php
+                                            }
+                                            wp_reset_query();
+                                            wp_reset_postdata();
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <?php
+                                    //$max2 = intval($catQuery3->max_num_pages);
+                                    // Custom Pagination
+                                    // echo numeric_pagination($max2, $catQuery)
+                                    echo "Note: older Half and Full Year Results are available under ASX Releases";
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    
+                    
+                    
+                    
+                    
+
+
+                    <?php
+                    
+                    if (get_field("presentations", $post->ID)) {
+                        $presentCat = get_field("presentations", $post->ID);
+                        $argsPresNews = array('posts_per_page' => 5, 'orderby' => 'date', 'order' => 'DESC', 'cat' => $presentCat);
+                        $presQuery = new WP_Query($argsPresNews);
+                        ?>
+                        <div class="coll-outer row">
+                        <div class="col-md-3 single-product">
+                            <?php if ($featurereportTitle && $featurereportTitle != '') { ?>
+                                <div class="coll-header sec-title"  id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($reportTitle))); ?>">
+                                    <h2><?php printf(__('%s', 'karoon'), $featurereportTitle); ?></h2>
+                                </div>
+                            <?php } ?>
+                            <div class="coll-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <?php $count = 1;
+                                            $argsFeaturePresNews = array('posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC', 'cat' => $presentCat);
+                                            $featurepresQuery = new WP_Query($argsFeaturePresNews);
+                                            if ($featurepresQuery->have_posts()) { ?>                                                                        
+                                            <ul class="annual_reports clearfix">
+                                                <?php while ($featurepresQuery->have_posts()) {
+                                                        $featurepresQuery->the_post();
+                                                        $isFeaturePresentation = get_field("is_featured_presentation", $featurepresQuery->ID);
+                                                        //$reportImage = get_sub_field('report_image', $post->ID);
+                                                        $pdfLink = get_field('pdf_link', $featurepresQuery->ID);
+                                                        $externalLink = get_field('report_external_link', $featurepresQuery->ID);                                                                     
+                                                        if($isFeaturePresentation == 1){
+                                                            if($count == 1){ ?>                                                             
+                                                                <li>
+                                                                <?php if($pdfLink) { ?>
+                                                                    <a href="<?php printf(__('%s', 'karoon'), $pdfLink); ?>" target="_blank">
+                                                                <?php } elseif($externalLink) { ?>
+                                                                    <a href="<?php printf(__('%s', 'karoon'), $externalLink); ?>" target="_blank">
+                                                                <?php } ?>
+                                                                <?php if(null!= get_the_post_thumbnail_url($featurepresQuery->ID)){ ?>
+                                                                    <i>
+                                                                        <img src="<?php echo get_the_post_thumbnail_url($featurepresQuery->ID); ?>" alt="" style="border: #9d9d9c solid 1px;">
+                                                                    </i>
+                                                                <?php } ?>
+                                                                    <span><?php echo get_the_title(); ?></span>
+                                                                    </a>
+                                                                </li>
+                                                            <?php $count++;                                                                         
+                                                            }
+                                                        }                                                                                                                              
+                                                } ?>                            
+                                            </ul>
+                                        <?php }
+                                            wp_reset_postdata();
+                                            wp_reset_query();
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 comp__collapse-block investor_news presentations">
+                            <div class="coll-outer" id="presentationblock">
+                                <div class="coll-header sec-title filter-box" id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($presentTitle))); ?>">
+                                    <?php if ($presentTitle && $presentTitle != '') { ?>
+                                        <h2><?php printf(__('%s', 'karoon'), $presentTitle); ?></h2>
+                                    <?php } ?>
+                                    <div class="filter-outer">
+                                        <select class="custom_dropdown small" id="presyear-list">
+                                            <?php if ($yearBtn && $yearBtn != '') { ?>
+                                                <option value=""><?php printf(__('%s', 'karoon'), $yearBtn); ?></option>
+                                            <?php } echo "here";$presentCat;?>
+                                            <?php wp_get_archives(array('type' => 'yearly', 'format' => 'option', 'post_type' => 'post')); ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="loader" style="display:none;"><img src="<?php echo get_template_directory_uri(); ?>/public/images/loader.gif" alt="" /> </div>
+                                <div id="communityNews" data-id="<?php echo $presentCat; ?>">
+                                    <div class="coll-body">
+                                        <?php
+                                        if ($presQuery->have_posts()) {
+                                            while ($presQuery->have_posts()) {
+                                                $presQuery->the_post();
+                                                $pdfLink = get_field("pdf_link", $presQuery->ID);
+                                                ?>
+                                                <div class="row policies-row">
+                                                    <div class="col-10 ">
+                                                        <p><?php printf(__('%s', 'karoon'), get_the_title($presQuery->ID)); ?></p>
+                                                        <span><?php printf(__('%s', 'karoon'), the_time('l, F d, Y')); ?></span>
+                                                    </div>
+
+                                                    <?php if ($pdfLink && $pdfLink != '') { ?>
+                                                        <div class="col-2 text-right">
+                                                            <a href="<?php echo $pdfLink; ?>" title="<?php printf(__('%s', 'karoon'), $viewBtn); ?>" target="_blank" class="btn primary-btn"><?php printf(__('%s', 'karoon'), $viewBtn); ?></a>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                                <?php
+                                            }
+                                            wp_reset_query();
+                                            wp_reset_postdata();
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <?php
+                                    $max = intval($presQuery->max_num_pages);
+                                    // Custom Pagination
+                                    echo numeric_pagination($max, $presQuery)
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    </div>
+
+
+                    <div class="comp__collapse-block report-open">
+                                <div class="coll-outer row">
+                                    <div class="col-md-12 multiple-reports">
+                                        <?php if ($annualreportTitle && $annualreportTitle != '') { ?>
+                                            <div class="coll-header sec-title"  id="annual-reports">
+                                                <h2><?php printf(__('%s', 'karoon'), $annualreportTitle); ?></h2>
+                                            </div>
+                                        <?php } ?>
+                                        
+                                        <?php
+                                            $countRow = count(get_field('annual_reports_section'));
+                                            if (have_rows('annual_reports_section')) {
+                                                $countReport = 1;
+                                                $countFeature = 0;
+                                        ?>
+                                        <div class="coll-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <ul class="annual_reports clearfix">                                                        
+                                                    <?php while (have_rows('annual_reports_section')) {
+                                                        the_row();
+                                                        $linkReport = '#';                                                    
+                                                        $titleReport = get_sub_field("report_title");
+                                                        $imageReport = get_sub_field("report_image");
+                                                        $linkReport = get_sub_field("report_link");
+//                                                        $featureReport = get_sub_field('feature_report', $post->ID);
+//                                                        if($featureReport){
+//                                                            $countFeature++;
+//                                                        }
+                                                    ?>
+
+                                                        <?php $classCol = ""; 
+                                                            //if($countFeature != 1){ ?>    
+                                                            <li class="<?php echo $classCol; ?>">
+                                                                <a href="<?php echo $linkReport; ?>" target="_blank">
+                                                                    <?php if (sizeof($imageReport) != 0 || $imageReport != '') { ?>
+                                                                        <i><img src="<?php echo $imageReport['sizes']['report']; ?>" alt=""></i>
+                                                                    <?php } ?>
+                                                                    <span><?php printf(__('%s', 'karoon'), $titleReport); ?></span>
+                                                                </a>
+                                                            </li>
+                                                        <?php //} 
+//                                                        if($featureReport){
+//                                                            $countFeature = $countFeature + 1;
+//                                                        }
+                                                        $countReport = $countReport + 1;
+                                                    }
+                                                    ?>
+                                                    </ul>                                                   
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                    <?php //if ($countReport > 6) { ?>
+                                    <div class="bt-wrap">
+                                        <a href="#" class="coll-trigger btn-toggle" data-text="<?php printf(__('%s', 'karoon'), $viewAllBtn); ?>">
+                                            <span class="button-text"><?php printf(__('%s', 'karoon'), $viewAllBtn); ?></span>
+                                        </a>
+                                    </div>
+                                <?php //} ?>                            
+                                </div>
+                            
+                            </div>
+                </div>
+                <!-- Annual Meetings - additional content added 2020-10-26 -->
+                <div class="coll-outer row">
+                                    <div class="col-md-12 multiple-reports">
+                                        <?php if ($annualmeetingTitle && $annualmeetingTitle != '') { ?>
+                                            <div class="coll-header sec-title"  id="annual-meetings">
+                                                <h2><?php printf(__('%s', 'karoon'), $annualmeetingTitle); ?></h2>
+                                            </div>
+                                        <?php } ?>
+                                        </div>
+                                        </div>
+                                        
+                            <?php
+                                            $countRow = count(get_field('annual_meetings_section'));
+                                            if (have_rows('annual_meetings_section')) {
+                                                $countReport = 1;
+                                                $countFeature = 0;
+                                        ?>
+                                        <div class="coll-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <ul class="annual_reports clearfix">                                                        
+                                                    <?php while (have_rows('annual_meetings_section')) {
+                                                        the_row();
+                                                        $linkReport = '#';                                                    
+                                                        $titleReport = get_sub_field("report_title");
+                                                        $imageReport = get_sub_field("report_image");
+                                                        $linkReport = get_sub_field("report_link");
+//                                                        $featureReport = get_sub_field('feature_report', $post->ID);
+//                                                        if($featureReport){
+//                                                            $countFeature++;
+//                                                        }
+                                                    ?>
+
+                                                        <?php $classCol = ""; 
+                                                            //if($countFeature != 1){ ?>    
+                                                            <li class="<?php echo $classCol; ?>">
+                                                                <a href="<?php echo $linkReport; ?>" target="_blank">
+                                                                    <?php if (sizeof($imageReport) != 0 || $imageReport != '') { ?>
+                                                                        <i><img src="<?php echo $imageReport['sizes']['report']; ?>" alt=""></i>
+                                                                    <?php } ?>
+                                                                    <span><?php printf(__('%s', 'karoon'), $titleReport); ?></span>
+                                                                </a>
+                                                            </li>
+                                                        <?php //} 
+//                                                        if($featureReport){
+//                                                            $countFeature = $countFeature + 1;
+//                                                        }
+                                                        $countReport = $countReport + 1;
+                                                    }
+                                                    ?>
+                                                    </ul>                                                   
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <?php } ?>             
+                                               
+                                        
+                                        
+                <!-- finish Annual Meeting - additional content added 2020-10-26 -->                        
+
+                    <div class="row content-block">
+                        <?php if ($analystTitle && $analystTitle != '') { ?>
+                            <div class="col-lg-12 sec-title" id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($analystTitle))); ?>">
+                                <h2><?php printf(__('%s', 'karoon'), $analystTitle); ?></h2>
+                            </div>
+                        <?php } ?>
+                        <div class="col-12">
+                            <?php
+                            if (have_rows('analyst_coverage_sections')) {
+                                while (have_rows('analyst_coverage_sections')) {
+                                    the_row();
+                                    $table = get_sub_field('table_block');
+                                    ?>
+                                    <table class="table table-analyst">
+                                        <?php if ($table['header']) { ?>
+                                            <thead>
+                                                <tr>
+                                                    <?php foreach ($table['header'] as $th) { ?>
+                                                        <th><?php printf(__('%s', 'karoon'), $th['c']); ?></th>
+                                                    <?php } ?>
+                                                </tr>
+                                            </thead>
+                                        <?php } ?>
+                                        <tbody>
+                                            <?php foreach ($table['body'] as $tr) { ?>
+                                                <tr>
+                                                    <?php foreach ($tr as $td) { ?>
+                                                        <td><?php printf(__('%s', 'karoon'), $td['c']); ?></td>
+                                                    <?php } ?>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <!-- Financial Calendar added 2021-06-28 --> 
+                      <div class="row content-block">
+                        <?php if ($financialcalendarTitle && $financialcalendarTitle != '') { ?>
+                            <div class="col-lg-12 sec-title" id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($financialcalendarTitle))); ?>">
+                                <h2><?php printf(__('%s', 'karoon'), $financialcalendarTitle); ?></h2>
+                            </div>
+                        <?php } ?>
+                        <div class="col-12">
+                            <?php
+                            if (have_rows('financial_calendar_sections')) {
+                                while (have_rows('financial_calendar_sections')) {
+                                    the_row();
+                                    $table = get_sub_field('table_block');
+                                    ?>
+                                    <table class="table table-analyst">
+                                        <?php if ($table['header']) { ?>
+                                            <thead>
+                                                <tr>
+                                                    <?php foreach ($table['header'] as $th) { ?>
+                                                        <th><?php printf(__('%s', 'karoon'), $th['c']); ?></th>
+                                                    <?php } ?>
+                                                </tr>
+                                            </thead>
+                                        <?php } ?>
+                                        <tbody>
+                                            <?php foreach ($table['body'] as $tr) { ?>
+                                                <tr>
+                                                    <?php foreach ($tr as $td) { ?>
+                                                        <td><?php printf(__('%s', 'karoon'), $td['c']); ?></td>
+                                                    <?php } ?>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                      <!-- finish Financial Calendar added 2021-06-28 -->
+                    <div class="row content-block glossary-conversation">
+                        <?php if ($glossaryTitle && $glossaryTitle != '') { ?>
+                            <div class="col-lg-12 sec-title" id="<?php printf(__('%s', 'karoon'), str_replace(array(' ',','),array('-',""),strtolower($glossaryTitle))); ?>">
+                                <h2><?php printf(__('%s', 'karoon'), $glossaryTitle); ?></h2>
+                            </div>
+                        <?php } ?>
+                        <div class="col-12 animatedParent animateOnce" data-sequence='300'>
+                            <div id="accordion" class="comp__accordion-block">
+                                <?php if (have_rows('abbrivation_section')) { ?>
+                                    <div class="card animated fadeInDownShort" data-id="1">
+
+                                        <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            <?php if ($abbrevTitle && $abbrevTitle != '') { ?>
+                                                <h4 class="mb-0"><?php printf(__('%s', 'karoon'), $abbrevTitle); ?></h4>
+                                            <?php } ?>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse card-body-outer pad-0" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="row">
+                                                <?php
+                                                while (have_rows('abbrivation_section')) {
+                                                    the_row();
+                                                    $table = get_sub_field('table_block');
+                                                    ?>
+                                                    <div class="col-lg-3 col-sm-6">
+                                                        <table class="table table-border">
+                                                            <?php foreach ($table['body'] as $tr) { ?>
+                                                                <tr>
+                                                                    <?php foreach ($tr as $td) { ?>
+                                                                        <td><?php printf(__('%s', 'karoon'), $td['c']); ?></td>
+                                                                    <?php } ?>
+                                                                </tr>
+                                                            <?php } ?>
+                                                        </table>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (have_rows('order_terms_section')) { ?>
+                                    <div class="card animated fadeInDownShort" data-id="2">
+                                        <div class="card-header" id="headingTwo" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <?php if ($orderTitle && $orderTitle != '') { ?>
+                                                <h4 class="mb-0"><?php printf(__('%s', 'karoon'), $orderTitle); ?></h4>
+                                            <?php } ?>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse card-body-outer pad-0" aria-labelledby="headingTwo" data-parent="#accordion">
+                                            <div class="row">
+                                                <?php
+                                                while (have_rows('order_terms_section')) {
+                                                    the_row();
+                                                    $table = get_sub_field('table_block');
+                                                    ?>
+                                                    <div class="col-lg-3 col-sm-6">
+                                                        <table class="table table-border">
+                                                            <?php foreach ($table['body'] as $tr) { ?>
+                                                                <tr>
+                                                                    <?php foreach ($tr as $td) { ?>
+                                                                        <td><?php printf(__('%s', 'karoon'), $td['c']); ?></td>
+                                                                    <?php } ?>
+                                                                </tr>
+                                                            <?php } ?>
+                                                        </table>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
+                                <div class="card animated fadeInDownShort" data-id="3">
+                                    <div class="card-header" id="headingThree" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <?php if ($induTitle && $induTitle != '') { ?>
+                                            <h4 class="mb-0"><?php printf(__('%s', 'karoon'), $induTitle); ?></h4>
+                                        <?php } ?>
+                                    </div>
+                                    <div id="collapseThree" class="collapse card-body-outer" aria-labelledby="headingThree" data-parent="#accordion">
+                                        <div class="row">
+                                            <div class="col-12 column-stacks">
+                                                <?php
+                                                if (have_rows('industry_standard_section')) {
+                                                    while (have_rows('industry_standard_section')) {
+                                                        the_row();
+                                                        $tableHead = get_sub_field("table_heading");
+                                                        $tableContent = get_sub_field("content");
+                                                        ?>
+                                                        <table class="table">
+                                                            <caption class="caption"><?php printf(__('%s', 'karoon'), $tableHead); ?></caption>
+                                                            <?php
+                                                            if (have_rows('table_content')) {
+
+                                                                while (have_rows('table_content')) {
+                                                                    the_row();
+                                                                    $tableContHead = get_sub_field("table_content_heading");
+                                                                    ?>
+                                                                    <tr>
+                                                                        <?php
+                                                                        $countRow2 = count(get_sub_field('table_row_content'));
+                                                                        if (have_rows('table_row_content')) {
+                                                                            
+                                                                            if ($countRow2 > 1) {
+                                                                                $rowSpan = "rowspan='".$countRow2."'";
+                                                                            } else{
+                                                                                $rowSpan = '';
+                                                                            }
+                                                                            ?>
+                                                                            <td <?php echo $rowSpan; ?>><?php printf(__('%s', 'karoon'), $tableContHead); ?></td>
+
+                                                                            <?php
+                                                                            while (have_rows('table_row_content')) {
+                                                                                the_row();
+                                                                                $tableCont = get_sub_field("table_row");
+                                                                                ?>
+                                                                                <td><?php printf(__('%s', 'karoon'), $tableCont); ?></td>
+                                                                                <?php
+                                                                                if($rowSpan != ''){ ?>
+                                                                    </tr></tr>
+                                                                              <?php  }
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                wp_reset_query();
+                                                                wp_reset_postdata();
+                                                            }
+                                                            ?>
+                                                            <?php if($tableContent && $tableContent != '') { ?>
+                                                            <caption><?php printf(__('%s', 'karoon'), $tableContent); ?></caption>
+                                                            <?php } else{ $tableContent = '';} ?>
+                                                        </table>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card animated fadeInDownShort" data-id="4">
+                                    <div class="card-header" id="headingFour" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        <?php if($speTitle && $speTitle != '') { ?>
+                                            <h4 class="mb-0"><?php printf(__('%s', 'karoon'), $speTitle); ?></h4>
+                                        <?php } ?>
+                                    </div>
+                                    <div id="collapseFour" class="collapse card-body-outer SPE-reserve" aria-labelledby="headingFour" data-parent="#accordion">
+                                        <div class="row">
+                                            <div class="col-12 column-stacks">
+                                                <?php
+                                                if (have_rows('spe_reserve_definitions_section')) {
+                                                    while (have_rows('spe_reserve_definitions_section')) {
+                                                        the_row();
+                                                        $cmsContent = get_sub_field("content");
+                                                        ?>
+                                                <div class="cms-content">
+                                                    <?php printf(__('%s', 'karoon'), $cmsContent); ?>
+                                                </div>
+                                                <?php } 
+                                                    }?>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<?php
+get_footer();

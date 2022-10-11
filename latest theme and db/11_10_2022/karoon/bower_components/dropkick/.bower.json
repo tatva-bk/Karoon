@@ -1,0 +1,15 @@
+{
+  "name": "dropkick",
+  "homepage": "https://github.com/Robdel12/DropKick",
+  "version": "2.2.5",
+  "_release": "2.2.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.2.5",
+    "commit": "e07e9d445bde22766d4b2fe551e27563ce53ba50"
+  },
+  "_source": "https://github.com/Robdel12/DropKick.git",
+  "_target": "^2.2.5",
+  "_originalSource": "dropkick",
+  "_direct": true
+}
